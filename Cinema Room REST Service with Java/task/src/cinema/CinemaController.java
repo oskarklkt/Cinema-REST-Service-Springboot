@@ -6,10 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CinemaController {
 
-    Cinema cinema = new Cinema(9,9);
+    private CinemaService cinemaService;
+
+    public CinemaController (CinemaService cinemaService) {
+        this.cinemaService = cinemaService;
+    }
 
     @GetMapping(value = "/seats")
     public Cinema getCinemaSeats() {
-        return cinema;
+        return cinemaService.getCinema();
     }
 }
