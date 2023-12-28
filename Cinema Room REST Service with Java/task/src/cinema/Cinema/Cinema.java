@@ -1,6 +1,8 @@
-package cinema;
+package cinema.Cinema;
 
 
+
+import cinema.Seat.Seat;
 
 import java.util.ArrayList;
 import java.util.List;
