@@ -9,7 +9,7 @@ public class Seat {
     public Seat(int row, int column) {
         this.row = row;
         this.column = column;
-        this.price = row > 4 ? 10 : 8;
+        this.price = row > 4 ? 8 : 10;
     }
 
     public int getRow() {

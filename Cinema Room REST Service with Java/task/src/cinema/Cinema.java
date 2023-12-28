@@ -12,6 +12,7 @@ public class Cinema {
     private int columns;
     private List<Seat> seats;
 
+
     public Cinema(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;

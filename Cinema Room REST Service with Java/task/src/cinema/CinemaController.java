@@ -1,9 +1,7 @@
 package cinema;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CinemaController {
@@ -20,7 +18,7 @@ public class CinemaController {
     }
 
     @PostMapping(value = "/purchase")
-    public Seat purchaseTicket(@RequestParam int row, @RequestParam int column) {
-        return cinemaService.purchaseTicket(row, column);
+    public ResponseEntity<Object> purchaseTicket(@RequestBody Seat seat) {
+        return cinemaService.purchaseTicket(seat.getRow(), seat.getColumn());
     }
 }
