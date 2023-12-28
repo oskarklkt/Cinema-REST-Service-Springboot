@@ -1,6 +1,6 @@
 package cinema;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +15,12 @@ public class CinemaService {
 
     public Cinema getCinema() {
         return cinema;
+    }
+
+    public Seat purchaseTicket(int row, int column) {
+        Seat seat = cinema.getSeats().get(row + column - 2);
+        cinema.getSeats().remove(seat);
+        return seat;
     }
 
 
