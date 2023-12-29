@@ -14,6 +14,7 @@ public class ApiExceptionHandler {
     TakenSeatException takenSeatException;
     SeatOutOfBoundsException seatOutOfBoundsException;
 
+    WrongTokenException wrongTokenException;
     public TakenSeatException getTakenSeatException() {
         return takenSeatException;
     }
@@ -23,10 +24,15 @@ public class ApiExceptionHandler {
         return seatOutOfBoundsException;
     }
 
+    public WrongTokenException getWrongTokenException() {
+        return wrongTokenException;
+    }
+
     @Autowired
-    public ApiExceptionHandler(TakenSeatException takenSeatException,SeatOutOfBoundsException seatOutOfBoundsException) {
+    public ApiExceptionHandler(TakenSeatException takenSeatException,SeatOutOfBoundsException seatOutOfBoundsException, WrongTokenException wrongTokenException) {
         this.takenSeatException = takenSeatException;
         this.seatOutOfBoundsException = seatOutOfBoundsException;
+        this.wrongTokenException = wrongTokenException;
     }
 
 

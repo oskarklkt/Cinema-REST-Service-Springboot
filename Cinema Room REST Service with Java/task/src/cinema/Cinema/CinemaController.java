@@ -1,8 +1,12 @@
 package cinema.Cinema;
 
 import cinema.Seat.Seat;
+import cinema.Ticket;
+import cinema.Token;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 public class CinemaController {
@@ -19,7 +23,12 @@ public class CinemaController {
     }
 
     @PostMapping(value = "/purchase")
-    public ResponseEntity<Object> purchaseTicket(@RequestParam int row, @RequestParam int column) {
-        return cinemaService.purchaseTicket(row, column);
+    public ResponseEntity<Object> purchaseTicket(@RequestBody Seat seat) {
+        return cinemaService.purchaseTicket(seat.getRow(), seat.getColumn());
+    }
+
+    @PostMapping(value = "/return")
+    public ResponseEntity<Object> returnTicket(@RequestBody Token token) {
+        return cinemaService.returnTicket(token);
     }
 }

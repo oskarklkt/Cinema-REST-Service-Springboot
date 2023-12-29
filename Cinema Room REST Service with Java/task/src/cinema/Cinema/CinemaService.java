@@ -3,15 +3,15 @@ package cinema.Cinema;
 
 import cinema.Exception.ApiExceptionHandler;
 import cinema.Seat.Seat;
+import cinema.Ticket;
+import cinema.Token;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.SynchronousQueue;
 
 @Service
 public class CinemaService {
@@ -22,14 +22,14 @@ public class CinemaService {
 
     private ConcurrentLinkedQueue<Seat> takenSeats;
 
-    private ConcurrentHashMap<UUID, Seat> soldTickets;
+    private HashMap<UUID, Ticket> soldTickets;
 
     @Autowired
     public CinemaService (ApiExceptionHandler apiExceptionHandler) {
         this.cinema = new Cinema(9, 9);
         this.apiExceptionHandler = apiExceptionHandler;
         this.takenSeats = new ConcurrentLinkedQueue<>();
-        this.soldTickets = new ConcurrentHashMap<>();
+        this.soldTickets = new HashMap<>();
     }
 
     public Cinema getCinema() {
@@ -53,9 +53,23 @@ public class CinemaService {
         }
         takenSeats.add(seat);
         cinema.getSeats().remove(seat);
-        UUID uuid = UUID.randomUUID();
-        soldTickets.put(uuid, seat);
-        return ResponseEntity.ok(new LinkedHashMap<>(Map.of("token", uuid, "ticket", seat)));
+        Ticket ticket = new Ticket(seat);
+        Token token = new Token();
+        soldTickets.put(token.getToken(), ticket);
+        return ResponseEntity.ok(Map.of("token", token.getToken(), "ticket", ticket.getTicket()));
+    }
+
+    public ResponseEntity<Object> returnTicket(Token token) {
+        if (soldTickets.containsKey(token.getToken())) {
+            Ticket ticket = soldTickets.get(token.getToken());
+            Seat seat = ticket.getTicket();
+            cinema.getSeats().add(seat);
+            soldTickets.remove(token.getToken());
+            takenSeats.remove(seat);
+            return ResponseEntity.ok(ticket);
+        } else {
+            return apiExceptionHandler.handleException(apiExceptionHandler.getWrongTokenException());
+        }
     }
 
 
