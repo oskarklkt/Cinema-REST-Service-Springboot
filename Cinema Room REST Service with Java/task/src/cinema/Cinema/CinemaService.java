@@ -1,7 +1,7 @@
 package cinema.Cinema;
 
 
-import cinema.Exception.ExceptionHandler;
+import cinema.Exception.ApiExceptionHandler;
 import cinema.Seat.Seat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +15,14 @@ public class CinemaService {
 
 
     Cinema cinema;
-    ExceptionHandler exceptionHandler;
+    ApiExceptionHandler apiExceptionHandler;
 
     private List<Seat> takenSeats;
 
-    public CinemaService (@Autowired ExceptionHandler exceptionHandler) {
+    @Autowired
+    public CinemaService (ApiExceptionHandler apiExceptionHandler) {
         this.cinema = new Cinema(9, 9);
-        this.exceptionHandler = exceptionHandler;
+        this.apiExceptionHandler = apiExceptionHandler;
         this.takenSeats = new ArrayList<>();
     }
 
@@ -31,11 +32,11 @@ public class CinemaService {
 
     public ResponseEntity<Object> purchaseTicket(int row, int column) {
         if (row < 1 || row > cinema.getRows() || column < 1 || column > cinema.getColumns()) {
-            return exceptionHandler.handleException(exceptionHandler.getSeatOutOfBoundsException());
+            return apiExceptionHandler.handleException(apiExceptionHandler.getSeatOutOfBoundsException());
         }
         for (Seat seat : takenSeats) {
             if (seat.getRow() == row && seat.getColumn() == column) {
-                return exceptionHandler.handleException(exceptionHandler.getTakenSeatException());
+                return apiExceptionHandler.handleException(apiExceptionHandler.getTakenSeatException());
             }
         }
         Seat seat = cinema.getSeats().get(row + column - 2);
