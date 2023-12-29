@@ -15,6 +15,8 @@ public class ApiExceptionHandler {
     SeatOutOfBoundsException seatOutOfBoundsException;
 
     WrongTokenException wrongTokenException;
+
+    WrongPasswordException wrongPasswordException;
     public TakenSeatException getTakenSeatException() {
         return takenSeatException;
     }
@@ -24,22 +26,42 @@ public class ApiExceptionHandler {
         return seatOutOfBoundsException;
     }
 
+
+    public WrongPasswordException getWrongPasswordException() {
+        return wrongPasswordException;
+    }
+
     public WrongTokenException getWrongTokenException() {
         return wrongTokenException;
     }
 
     @Autowired
-    public ApiExceptionHandler(TakenSeatException takenSeatException,SeatOutOfBoundsException seatOutOfBoundsException, WrongTokenException wrongTokenException) {
+    public ApiExceptionHandler(TakenSeatException takenSeatException,
+                               SeatOutOfBoundsException seatOutOfBoundsException,
+                               WrongTokenException wrongTokenException,
+                               WrongPasswordException wrongPasswordException) {
         this.takenSeatException = takenSeatException;
         this.seatOutOfBoundsException = seatOutOfBoundsException;
         this.wrongTokenException = wrongTokenException;
+        this.wrongPasswordException = wrongPasswordException;
     }
 
 
+    @ExceptionHandler(WrongPasswordException.class)
+    public ResponseEntity<Object> handleWrongPasswordException(RuntimeException ex) {
+        return new ResponseEntity<>(Map.of("error", ex.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
 
-    @ExceptionHandler({SeatOutOfBoundsException.class, TakenSeatException.class})
+    @ExceptionHandler({ TakenSeatException.class,
+                        SeatOutOfBoundsException.class,
+                        WrongTokenException.class})
     public ResponseEntity<Object> handleException(RuntimeException ex) {
         return new ResponseEntity<>(Map.of("error", ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+
+
+
+
 
 }

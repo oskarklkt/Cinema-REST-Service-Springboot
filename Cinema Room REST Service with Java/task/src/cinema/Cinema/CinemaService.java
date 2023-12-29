@@ -3,6 +3,7 @@ package cinema.Cinema;
 
 import cinema.Exception.ApiExceptionHandler;
 import cinema.Seat.Seat;
+import cinema.Statistics;
 import cinema.Ticket.Ticket;
 import cinema.Ticket.Token;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,21 @@ public class CinemaService {
             return ResponseEntity.ok(ticket);
         } else {
             return apiExceptionHandler.handleException(apiExceptionHandler.getWrongTokenException());
+        }
+    }
+
+    public ResponseEntity<Object> getCinemaStats(String password) {
+        if (password.equals("super_secret")) {
+            int income = 0;
+            for (Seat seat : takenSeats) {
+                income += seat.getPrice();
+        }
+        int available = cinema.getColumns() * cinema.getRows() - takenSeats.size();
+        int purchased = takenSeats.size();
+
+        return ResponseEntity.ok(new Statistics(income, available, purchased));
+        } else {
+            return apiExceptionHandler.handleWrongPasswordException(apiExceptionHandler.getWrongPasswordException());
         }
     }
 
