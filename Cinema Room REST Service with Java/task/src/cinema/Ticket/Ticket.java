@@ -1,4 +1,4 @@
-package cinema;
+package cinema.Ticket;
 
 import cinema.Seat.Seat;
 

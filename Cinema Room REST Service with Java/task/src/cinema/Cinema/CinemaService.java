@@ -3,14 +3,13 @@ package cinema.Cinema;
 
 import cinema.Exception.ApiExceptionHandler;
 import cinema.Seat.Seat;
-import cinema.Ticket;
-import cinema.Token;
+import cinema.Ticket.Ticket;
+import cinema.Ticket.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Service

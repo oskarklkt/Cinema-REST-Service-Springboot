@@ -1,12 +1,9 @@
 package cinema.Cinema;
 
 import cinema.Seat.Seat;
-import cinema.Ticket;
-import cinema.Token;
+import cinema.Ticket.Token;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 public class CinemaController {
