@@ -31,7 +31,7 @@ public class ApiExceptionHandler {
 
 
 
-    @ExceptionHandler(value = RuntimeException.class)
+    @ExceptionHandler({SeatOutOfBoundsException.class, TakenSeatException.class})
     public ResponseEntity<Object> handleException(RuntimeException ex) {
         return new ResponseEntity<>(Map.of("error", ex.getMessage()), HttpStatus.BAD_REQUEST);
     }

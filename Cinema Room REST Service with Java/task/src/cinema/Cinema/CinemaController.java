@@ -19,7 +19,7 @@ public class CinemaController {
     }
 
     @PostMapping(value = "/purchase")
-    public ResponseEntity<Object> purchaseTicket(@RequestBody Seat seat) {
-        return cinemaService.purchaseTicket(seat.getRow(), seat.getColumn());
+    public ResponseEntity<Object> purchaseTicket(@RequestParam int row, @RequestParam int column) {
+        return cinemaService.purchaseTicket(row, column);
     }
 }
